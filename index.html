@@ -23,12 +23,7 @@ body {
   background: var(--bg);
   color: var(--ink);
 }
-#app {
-  min-height: 100vh;
-  width: 100%;
-  background: var(--bg);
-  border-radius: 0;
-}
+#app { min-height: 100vh; width: 100%; background: var(--bg); }
 header {
   display: flex;
   align-items: center;
@@ -37,11 +32,7 @@ header {
   padding: 22px clamp(18px,5vw,64px);
   border-bottom: 1px solid var(--line);
 }
-.brand {
-  letter-spacing: .19em;
-  font-size: 12px;
-  font-weight: 800;
-}
+.brand { letter-spacing: .19em; font-size: 12px; font-weight: 800; }
 .tag { color: var(--muted); font-size: 12px; }
 main {
   max-width: 1180px;
@@ -61,12 +52,7 @@ h1 {
   margin: 0 0 10px;
   font-weight: 650;
 }
-.intro p {
-  margin: 0;
-  color: var(--muted);
-  line-height: 1.7;
-  font-size: 14px;
-}
+.intro p { margin: 0; color: var(--muted); line-height: 1.7; font-size: 14px; }
 .pill {
   border: 1px solid var(--line);
   border-radius: 999px;
@@ -129,17 +115,8 @@ canvas:active { cursor: grabbing; }
   align-items: end;
   pointer-events: none;
 }
-#shownWord {
-  font-size: clamp(24px,4vw,38px);
-  font-weight: 650;
-  letter-spacing: .03em;
-}
-.preview-bottom small {
-  display: block;
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 4px;
-}
+#shownWord { font-size: clamp(24px,4vw,38px); font-weight: 650; letter-spacing: .03em; }
+.preview-bottom small { display: block; color: var(--muted); font-size: 11px; margin-top: 4px; }
 .controls {
   background: var(--panel);
   border: 1px solid var(--line);
@@ -149,12 +126,7 @@ canvas:active { cursor: grabbing; }
   flex-direction: column;
   gap: 22px;
 }
-.label {
-  font-size: 12px;
-  font-weight: 700;
-  margin-bottom: 9px;
-  display: block;
-}
+.label { font-size: 12px; font-weight: 700; margin-bottom: 9px; display: block; }
 .inputrow { display: flex; gap: 8px; }
 input {
   min-width: 0;
@@ -187,12 +159,7 @@ button:active { transform: scale(.98); }
   font-weight: 700;
   white-space: nowrap;
 }
-.hint {
-  color: var(--muted);
-  font-size: 11px;
-  line-height: 1.6;
-  margin-top: 8px;
-}
+.hint { color: var(--muted); font-size: 11px; line-height: 1.6; margin-top: 8px; }
 .divider { height: 1px; background: var(--line); }
 .controlhead {
   display: flex;
@@ -202,22 +169,10 @@ button:active { transform: scale(.98); }
   margin-bottom: 15px;
 }
 .controlhead .label { margin: 0; }
-#resetBtn {
-  padding: 5px 8px;
-  font-size: 11px;
-  color: var(--muted);
-}
+#resetBtn { padding: 5px 8px; font-size: 11px; color: var(--muted); }
 .param { margin: 15px 0; }
-.paramtop {
-  display: flex;
-  justify-content: space-between;
-  font-size: 12px;
-  margin-bottom: 8px;
-}
-.paramtop span:last-child {
-  color: var(--muted);
-  font-variant-numeric: tabular-nums;
-}
+.paramtop { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 8px; }
+.paramtop span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
 input[type=range] {
   padding: 0;
   border: 0;
@@ -226,24 +181,10 @@ input[type=range] {
   height: 16px;
 }
 .exporttitle { font-size: 12px; font-weight: 700; margin-bottom: 10px; }
-.exportgrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
+.exportgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 .exportgrid button { font-size: 12px; }
-.exportgrid button span {
-  display: block;
-  color: var(--muted);
-  font-size: 10px;
-  margin-top: 3px;
-}
-.status {
-  min-height: 16px;
-  color: var(--muted);
-  font-size: 11px;
-  margin-top: 9px;
-}
+.exportgrid button span { display: block; color: var(--muted); font-size: 10px; margin-top: 3px; }
+.status { min-height: 16px; color: var(--muted); font-size: 11px; margin-top: 9px; }
 footer {
   max-width: 1180px;
   margin: auto;
@@ -272,55 +213,55 @@ footer {
     <h1>ことばを、かたちに。</h1>
     <p>オノマトペの感触を、ひとつの3Dオブジェクトへ。<br>言葉を入力して、形をつくり、データとして持ち帰ろう。</p>
   </div>
-  <div class="pill">BROWSER PROTOTYPE · v0.1</div>
+  <div class="pill">BROWSER PROTOTYPE · v0.2</div>
 </section>
 <section class="workspace">
-<div class="preview">
-  <div class="preview-label">LIVE 3D PREVIEW <span style="margin-left:8px">· DRAG TO ROTATE</span></div>
-  <canvas id="view" aria-label="生成された3D球体のプレビュー"></canvas>
-  <div class="preview-bottom">
-    <div>
-      <div id="shownWord">ぷにぷに</div>
-      <small id="shapeCaption">なめらかで規則的な形</small>
+  <div class="preview">
+    <div class="preview-label">LIVE 3D PREVIEW <span style="margin-left:8px">· DRAG TO ROTATE</span></div>
+    <canvas id="view" aria-label="生成された3D球体のプレビュー"></canvas>
+    <div class="preview-bottom">
+      <div>
+        <div id="shownWord">ぷにぷに</div>
+        <small id="shapeCaption">なめらかで規則的な形</small>
+      </div>
+      <div class="pill">MESH / READY</div>
     </div>
-    <div class="pill">MESH / READY</div>
   </div>
-</div>
-<aside class="controls">
-<div>
-  <label class="label" for="wordInput">01 — オノマトペ</label>
-  <div class="inputrow">
-    <input id="wordInput" maxlength="32" value="ぷにぷに" placeholder="例：ざらざら、しーん…">
-    <button class="primary" id="generateBtn">形を生成 ↗</button>
-  </div>
-  <div class="hint">自由に入力してね。試作版では、言葉の一部を読み取って形に変換します。</div>
-</div>
-<div class="divider"></div>
-<div>
-  <div class="controlhead">
-    <span class="label">02 — 形のパラメータ</span>
-    <button id="resetBtn">初期値に戻す</button>
-  </div>
-  <div class="param">
-    <div class="paramtop"><label for="bump">変形の強さ</label><span id="bumpVal">1.15</span></div>
-    <input id="bump" type="range" min="0" max="2" step="0.01" value="1.15">
-  </div>
-  <div class="param">
-    <div class="paramtop"><label for="soft">丸み</label><span id="softVal">0.70</span></div>
-    <input id="soft" type="range" min="0" max="1" step="0.01" value="0.70">
-  </div>
-</div>
-<div class="divider"></div>
-<div>
-  <div class="exporttitle">03 — 3Dデータを書き出す</div>
-  <div class="exportgrid">
-    <button id="objBtn">OBJを書き出す<span>形状・メッシュ</span></button>
-    <button id="stlBtn">STLを書き出す<span>3Dプリント向け</span></button>
-  </div>
-  <div id="status" class="status" role="status">準備完了。形を生成してみよう。</div>
-  <div class="hint">書き出すのは現在の形状です。材質・色・アニメーションはOBJ/STLには含まれません。</div>
-</div>
-</aside>
+  <aside class="controls">
+    <div>
+      <label class="label" for="wordInput">01 — オノマトペ</label>
+      <div class="inputrow">
+        <input id="wordInput" maxlength="32" value="ぷにぷに" placeholder="例：ざらざら、しーん…">
+        <button class="primary" id="generateBtn">形を生成 ↗</button>
+      </div>
+      <div class="hint">自由に入力してね。試作版では、言葉の一部を読み取って形に変換します。</div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="controlhead">
+        <span class="label">02 — 形のパラメータ</span>
+        <button id="resetBtn">初期値に戻す</button>
+      </div>
+      <div class="param">
+        <div class="paramtop"><label for="bump">変形の強さ</label><span id="bumpVal">1.15</span></div>
+        <input id="bump" type="range" min="0" max="2" step="0.01" value="1.15">
+      </div>
+      <div class="param">
+        <div class="paramtop"><label for="soft">丸み</label><span id="softVal">0.70</span></div>
+        <input id="soft" type="range" min="0" max="1" step="0.01" value="0.70">
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div>
+      <div class="exporttitle">03 — 3Dデータを書き出す</div>
+      <div class="exportgrid">
+        <button id="objBtn">OBJを書き出す<span>形状・メッシュ</span></button>
+        <button id="stlBtn">STLを書き出す<span>3Dプリント向け</span></button>
+      </div>
+      <div id="status" class="status" role="status">準備完了。形を生成してみよう。</div>
+      <div class="hint">書き出すのは現在の形状です。材質・色・アニメーションはOBJ/STLには含まれません。</div>
+    </div>
+  </aside>
 </section>
 </main>
 <footer>この試作品はブラウザ内で動作します。入力した言葉を外部サーバーへ送信しません。意味をAIで解釈する機能、完全な物理的な質感の再現は今後の拡張候補です。</footer>
@@ -358,16 +299,19 @@ function buildMesh(){
       verts.push({x:d.x,y:d.y,z:d.z});
     }
   }
-  for(let i=0;i<N;i++) for(let j=0;j<M;j++){
-    const a=i*(M+1)+j,b=a+M+1;
-    faces.push([a,b,a+1],[a+1,b,b+1]);
+  for(let i=0;i<N;i++){
+    for(let j=0;j<M;j++){
+      const a=i*(M+1)+j,b=a+M+1;
+      faces.push([a,b,a+1],[a+1,b,b+1]);
+    }
   }
 }
 
 function deform(d,t=0){
-  // Smooth trigonometric fields: no random noise, jagged edges, or animation.
   const freq=shapeStyle==='geometric'?4:3;
-  const a=Math.cos(freq*d.x), b=Math.cos(freq*d.y), c=Math.cos(freq*d.z);
+  const a=Math.cos(freq*d.x);
+  const b=Math.cos(freq*d.y);
+  const c=Math.cos(freq*d.z);
   const geometric=(a+b+c)/3;
   const organic=bumpDirs.reduce((sum,p)=>
     sum+Math.exp((d.x*p.x+d.y*p.y+d.z*p.z-1)*18),0);
@@ -404,8 +348,8 @@ function render(){
   const w=canvas.clientWidth,h=canvas.clientHeight;
   if(!w||!h)return;
   ctx.clearRect(0,0,w,h);
-
   const scale=Math.min(w,h)*.31,cx=w*.5,cy=h*.49;
+
   const points=verts.map(v=>{
     const p=rotate(v);
     const persp=3.5/(3.5-p.z*.15);
@@ -421,15 +365,11 @@ function render(){
   const light=matchMedia('(prefers-color-scheme: dark)').matches?38:68;
   const tris=[];
 
+  // 画面上の三角形の向きで裏側の面を除外する
   for(const f of faces){
     const a=points[f[0]],b=points[f[1]],c=points[f[2]];
-    const ux=b.x3-a.x3,uy=b.y3-a.y3,uz=b.z3-a.z3;
-    const vx=c.x3-a.x3,vy=c.y3-a.y3,vz=c.z3-a.z3;
-    const nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
-    const mx=(a.x3+b.x3+c.x3)/3;
-    const my=(a.y3+b.y3+c.y3)/3;
-    const mz=(a.z3+b.z3+c.z3)/3;
-    if(nx*mx+ny*my+nz*mz>=0)continue;
+    const area=(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+    if(area<=0)continue;
     const z=(a.z+b.z+c.z)/3;
     tris.push({f,z});
   }
@@ -445,6 +385,7 @@ function render(){
     const shade=Math.max(.12,Math.min(1,
       (.45*(nx/len)+.65*(ny/len)+.85*(nz/len)+1.4)/2.4
     ));
+
     ctx.beginPath();
     ctx.moveTo(a.x,a.y);
     ctx.lineTo(b.x,b.y);
@@ -461,14 +402,22 @@ function loop(){
   requestAnimationFrame(loop);
 }
 
-function setStatus(s){$('status').textContent=s;}
+function setStatus(s){
+  $('status').textContent=s;
+}
 
 function applyWord(){
   word=$('wordInput').value.trim();
-  if(!word){setStatus('オノマトペを入力してね。');return;}
+  if(!word){
+    setStatus('オノマトペを入力してね。');
+    return;
+  }
+
   shapeStyle=/かく|カク|きちん|整然|規則|四角|角/.test(word)
     ?'geometric':'organic';
+
   let p={bump:1.15,soft:.7};
+
   if(/ぷに|ぷる|もち|むに|ふわ|もこ|ぽわ/.test(word)){
     p.bump=.9;p.soft=.9;
   }
@@ -481,11 +430,13 @@ function applyWord(){
   if(/しーん|すん|静か|ひそ/.test(word)){
     p.bump=.08;p.soft=.95;
   }
+
   params=p;
   for(const k of Object.keys(controls)){
     controls[k].value=params[k];
     updateLabel(k);
   }
+
   $('shownWord').textContent=word;
   $('shapeCaption').textContent=caption(word);
   setStatus('「'+word+'」の形を生成しました。パラメータは手動でも調整できます。');
@@ -511,7 +462,9 @@ function download(text,type,name){
   const blob=new Blob([text],{type});
   const url=URL.createObjectURL(blob);
   const a=document.createElement('a');
-  a.href=url;a.download=name;a.click();
+  a.href=url;
+  a.download=name;
+  a.click();
   setTimeout(()=>URL.revokeObjectURL(url),1000);
   setStatus(name+' を書き出しました。');
 }
@@ -519,31 +472,43 @@ function download(text,type,name){
 function exportOBJ(){
   const vs=baseDirs.map(d=>deform(d,0));
   let out='# ONOMATOPOEIA LAB OBJ\n# Word: '+word+'\n';
-  for(const v of vs)out+=`v ${v.x.toFixed(6)} ${v.y.toFixed(6)} ${v.z.toFixed(6)}\n`;
-  for(const f of faces)out+=`f ${f[0]+1} ${f[1]+1} ${f[2]+1}\n`;
+  for(const v of vs){
+    out+=`v ${v.x.toFixed(6)} ${v.y.toFixed(6)} ${v.z.toFixed(6)}\n`;
+  }
+  for(const f of faces){
+    out+=`f ${f[0]+1} ${f[1]+1} ${f[2]+1}\n`;
+  }
   download(out,'text/plain;charset=utf-8',safeName()+'.obj');
 }
 
 function exportSTL(){
   const vs=baseDirs.map(d=>deform(d,0));
   let out='solid onomatopoeia\n';
+
   for(const f of faces){
     const a=vs[f[0]],b=vs[f[1]],c=vs[f[2]];
     let ux=b.x-a.x,uy=b.y-a.y,uz=b.z-a.z;
     let vx=c.x-a.x,vy=c.y-a.y,vz=c.z-a.z;
-    let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;
+    let nx=uy*vz-uz*vy;
+    let ny=uz*vx-ux*vz;
+    let nz=ux*vy-uy*vx;
     let l=Math.hypot(nx,ny,nz)||1;
+
     out+=` facet normal ${nx/l} ${ny/l} ${nz/l}\n  outer loop\n`;
-    for(const p of [a,b,c])out+=`   vertex ${p.x} ${p.y} ${p.z}\n`;
+    for(const p of [a,b,c]){
+      out+=`   vertex ${p.x} ${p.y} ${p.z}\n`;
+    }
     out+='  endloop\n endfacet\n';
   }
+
   out+='endsolid onomatopoeia\n';
   download(out,'model/stl',safeName()+'.stl');
 }
 
 function safeName(){
   return (word||'onomatopeia')
-    .replace(/[^\p{L}\p{N}_-]/gu,'_').slice(0,32)||'onomatopeia';
+    .replace(/[^\p{L}\p{N}_-]/gu,'_')
+    .slice(0,32)||'onomatopeia';
 }
 
 $('generateBtn').addEventListener('click',applyWord);
@@ -570,19 +535,24 @@ $('resetBtn').addEventListener('click',()=>{
 });
 
 canvas.addEventListener('pointerdown',e=>{
-  dragging=true;lastX=e.clientX;lastY=e.clientY;
+  dragging=true;
+  lastX=e.clientX;
+  lastY=e.clientY;
   canvas.setPointerCapture(e.pointerId);
 });
+
 canvas.addEventListener('pointermove',e=>{
   if(!dragging)return;
   rotY+=(e.clientX-lastX)*.008;
   rotX+=(e.clientY-lastY)*.008;
-  lastX=e.clientX;lastY=e.clientY;
+  lastX=e.clientX;
+  lastY=e.clientY;
 });
+
 canvas.addEventListener('pointerup',()=>dragging=false);
 canvas.addEventListener('pointercancel',()=>dragging=false);
-
 window.addEventListener('resize',resize);
+
 buildMesh();
 resize();
 applyWord();
