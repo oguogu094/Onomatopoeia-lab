@@ -1,1 +1,162 @@
-
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ONOMATOPOEIA LAB</title>
+<style>
+:root { color-scheme: light dark; --bg: light-dark(#f6f4f0,#17191e); --panel: light-dark(#fffefa,#22252c); --ink: light-dark(#22252a,#f2f1ed); --muted: light-dark(#777b83,#a5a9b2); --line: light-dark(#deddd7,#3b3f48); --accent: light-dark(#6759c8,#b7aaff); --soft: light-dark(#eeebff,#343044); }
+* { box-sizing: border-box; }
+body { margin:0; font-family: ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif; background:var(--bg); color:var(--ink); }
+#app { min-height:100vh; width:100%; background:var(--bg); border-radius:0; }
+header { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:22px clamp(18px,5vw,64px); border-bottom:1px solid var(--line); }
+.brand { letter-spacing:.19em; font-size:12px; font-weight:800; }
+.tag { color:var(--muted); font-size:12px; }
+main { max-width:1180px; margin:auto; padding:clamp(22px,4vw,48px) clamp(16px,4vw,44px) 40px; }
+.intro { display:flex; justify-content:space-between; align-items:end; gap:24px; margin-bottom:28px; }
+h1 { font-size:clamp(28px,4vw,44px); letter-spacing:-.05em; margin:0 0 10px; font-weight:650; }
+.intro p { margin:0; color:var(--muted); line-height:1.7; font-size:14px; }
+.pill { border:1px solid var(--line); border-radius:999px; padding:8px 12px; color:var(--muted); font-size:11px; white-space:nowrap; }
+.workspace { display:grid; grid-template-columns:minmax(0,1.3fr) minmax(290px,.8fr); gap:18px; }
+.preview { background:radial-gradient(ellipse at 50% 45%, light-dark(#ffffff,#34323f) 0%, var(--panel) 57%, light-dark(#eeece7,#202229) 100%); border:1px solid var(--line); border-radius:24px; min-height:470px; position:relative; overflow:hidden; display:flex; align-items:center; justify-content:center; }
+.preview:before { content:""; position:absolute; width:75%; height:1px; background:var(--line); opacity:.55; bottom:18%; }
+canvas { width:100%; height:100%; position:absolute; inset:0; touch-action:pan-y; cursor:grab; }
+canvas:active { cursor:grabbing; }
+.preview-label { position:absolute; z-index:2; top:20px; left:22px; color:var(--muted); font-size:10px; letter-spacing:.16em; }
+.preview-bottom { position:absolute; z-index:2; bottom:20px; left:22px; right:22px; display:flex; justify-content:space-between; align-items:end; pointer-events:none; }
+#shownWord { font-size:clamp(24px,4vw,38px); font-weight:650; letter-spacing:.03em; }
+.preview-bottom small { display:block; color:var(--muted); font-size:11px; margin-top:4px; }
+.controls { background:var(--panel); border:1px solid var(--line); border-radius:24px; padding:24px; display:flex; flex-direction:column; gap:22px; }
+.label { font-size:12px; font-weight:700; margin-bottom:9px; display:block; }
+.inputrow { display:flex; gap:8px; }
+input { min-width:0; width:100%; padding:13px 14px; border:1px solid var(--line); border-radius:12px; background:var(--bg); color:var(--ink); font:inherit; outline:none; }
+input:focus { border-color:var(--accent); }
+button, select { font:inherit; border:1px solid var(--line); background:var(--panel); color:var(--ink); border-radius:12px; padding:11px 13px; cursor:pointer; transition:transform .15s,border-color .15s; }
+button:hover { border-color:var(--accent); } button:active { transform:scale(.98); }
+.primary { background:var(--accent); color:white; border-color:transparent; font-weight:700; white-space:nowrap; }
+.hint { color:var(--muted); font-size:11px; line-height:1.6; margin-top:8px; }
+.divider { height:1px; background:var(--line); }
+.controlhead { display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:15px; }
+.controlhead .label { margin:0; }
+#resetBtn { padding:5px 8px; font-size:11px; color:var(--muted); }
+.param { margin:15px 0; }
+.paramtop { display:flex; justify-content:space-between; font-size:12px; margin-bottom:8px; }
+.paramtop span:last-child { color:var(--muted); font-variant-numeric:tabular-nums; }
+input[type=range] { padding:0; border:0; accent-color:var(--accent); background:transparent; height:16px; }
+.exporttitle { font-size:12px; font-weight:700; margin-bottom:10px; }
+.exportgrid { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.exportgrid button { font-size:12px; }
+.exportgrid button span { display:block; color:var(--muted); font-size:10px; margin-top:3px; }
+.status { min-height:16px; color:var(--muted); font-size:11px; margin-top:9px; }
+footer { max-width:1180px; margin:auto; padding:0 clamp(16px,4vw,44px) 28px; color:var(--muted); font-size:11px; line-height:1.7; }
+@media(max-width:760px) { .intro { align-items:start; flex-direction:column; } .workspace { grid-template-columns:1fr; } .preview { min-height:370px; } .controls { padding:20px; } }
+</style>
+</head>
+<body>
+<div id="app">
+<header><div class="brand">ONOMATOPOEIA LAB</div><div class="tag">WORDS → FORMS / 3D EXPERIMENT</div></header>
+<main>
+<section class="intro"><div><h1>ことばを、かたちに。</h1><p>オノマトペの感触を、ひとつの3Dオブジェクトへ。<br>言葉を入力して、形をつくり、データとして持ち帰ろう。</p></div><div class="pill">BROWSER PROTOTYPE · v0.1</div></section>
+<section class="workspace">
+<div class="preview"><div class="preview-label">LIVE 3D PREVIEW <span style="margin-left:8px">· DRAG TO ROTATE</span></div><canvas id="view" aria-label="生成された3D球体のプレビュー"></canvas><div class="preview-bottom"><div><div id="shownWord">ぷにぷに</div><small id="shapeCaption">なめらかで規則的な形</small></div><div class="pill">MESH / READY</div></div></div>
+<aside class="controls">
+<div><label class="label" for="wordInput">01 — オノマトペ</label><div class="inputrow"><input id="wordInput" maxlength="32" value="ぷにぷに" placeholder="例：ざらざら、しーん…"><button class="primary" id="generateBtn">形を生成 ↗</button></div><div class="hint">自由に入力してね。試作版では、言葉の一部を読み取って形に変換します。</div></div>
+<div class="divider"></div>
+<div><div class="controlhead"><span class="label">02 — 形のパラメータ</span><button id="resetBtn">初期値に戻す</button></div>
+<div class="param"><div class="paramtop"><label for="bump">変形の強さ</label><span id="bumpVal">1.15</span></div><input id="bump" type="range" min="0" max="2" step="0.01" value="1.15"></div>
+<div class="param"><div class="paramtop"><label for="soft">丸み</label><span id="softVal">0.70</span></div><input id="soft" type="range" min="0" max="1" step="0.01" value="0.70"></div>
+</div>
+<div class="divider"></div>
+<div><div class="exporttitle">03 — 3Dデータを書き出す</div><div class="exportgrid"><button id="objBtn">OBJを書き出す<span>形状・メッシュ</span></button><button id="stlBtn">STLを書き出す<span>3Dプリント向け</span></button></div><div id="status" class="status" role="status">準備完了。形を生成してみよう。</div><div class="hint">書き出すのは現在の形状です。材質・色・アニメーションはOBJ/STLには含まれません。</div></div>
+</aside>
+</section>
+</main>
+<footer>この試作品はブラウザ内で動作します。入力した言葉を外部サーバーへ送信しません。意味をAIで解釈する機能、完全な物理的な質感の再現は今後の拡張候補です。</footer>
+</div>
+<script>
+(() => {
+const canvas = document.getElementById('view');
+const ctx = canvas.getContext('2d');
+const $ = id => document.getElementById(id);
+const controls = { bump:$('bump'), soft:$('soft') };
+let params = { bump:.8, soft:.7 };
+let rotX=-.25, rotY=.45, dragging=false, lastX=0, lastY=0, time=0, word='ぷにぷに', shapeStyle='organic';
+let verts=[], faces=[], baseDirs=[];
+const N=42, M=64;
+function buildMesh(){
+ verts=[]; faces=[]; baseDirs=[];
+ for(let i=0;i<=N;i++){
+  const phi=Math.PI*i/N;
+  for(let j=0;j<=M;j++){
+   const theta=2*Math.PI*j/M;
+   const d={x:Math.sin(phi)*Math.cos(theta),y:Math.cos(phi),z:Math.sin(phi)*Math.sin(theta)};
+   baseDirs.push(d); verts.push({x:d.x,y:d.y,z:d.z});
+  }
+ }
+ for(let i=0;i<N;i++) for(let j=0;j<M;j++){
+  const a=i*(M+1)+j,b=a+M+1; faces.push([a,b,a+1],[a+1,b,b+1]);
+ }
+}
+function deform(d, t=0){
+ // Smooth trigonometric fields: no random noise, jagged edges, or animation.
+ const freq=shapeStyle==='geometric'?4:3;
+ const a=Math.cos(freq*d.x), b=Math.cos(freq*d.y), c=Math.cos(freq*d.z);
+ const geometric=(a+b+c)/3;
+ const organic=(Math.sin(freq*d.x)*Math.sin(freq*d.y)+Math.sin(freq*d.y)*Math.sin(freq*d.z)+Math.sin(freq*d.z)*Math.sin(freq*d.x))/3;
+ const raw=shapeStyle==='geometric'?geometric:organic;
+ const rounded=Math.sign(raw)*Math.pow(Math.abs(raw),.55+params.soft*2.4);
+ const amplitude=params.bump*.62;
+ const r=Math.max(.18,1+rounded*amplitude);
+ return {x:d.x*r,y:d.y*r,z:d.z*r};
+}
+function rebuild(){ verts=baseDirs.map(d=>deform(d,time)); }
+function resize(){ const r=canvas.getBoundingClientRect(), dpr=Math.min(devicePixelRatio||1,2); canvas.width=Math.max(1,Math.floor(r.width*dpr)); canvas.height=Math.max(1,Math.floor(r.height*dpr)); ctx.setTransform(dpr,0,0,dpr,0,0); }
+function rotate(p){ let x=p.x,y=p.y,z=p.z; const cx=Math.cos(rotX),sx=Math.sin(rotX),cy=Math.cos(rotY),sy=Math.sin(rotY); let y1=y*cx-z*sx,z1=y*sx+z*cx; return {x:x*cy+z1*sy,y:y1,z:-x*sy+z1*cy}; }
+function render(){
+ const w=canvas.clientWidth,h=canvas.clientHeight; if(!w||!h)return;
+ ctx.clearRect(0,0,w,h);
+ const scale=Math.min(w,h)*.31, cx=w*.5, cy=h*.49;
+ const points=verts.map(v=>{const p=rotate(v); const persp=3.5/(3.5-p.z*.15); return {x:cx+p.x*scale*persp,y:cy-p.y*scale*persp,z:p.z};});
+ const hue=258; const light=matchMedia('(prefers-color-scheme: dark)').matches?38:68;
+ const tris=[];
+ for(const f of faces){ const a=points[f[0]],b=points[f[1]],c=points[f[2]]; const ux=b.x-a.x,uy=b.y-a.y,vx=c.x-a.x,vy=c.y-a.y; if(ux*vy-uy*vx<0) continue; const z=(a.z+b.z+c.z)/3; tris.push({f,z}); }
+ tris.sort((a,b)=>a.z-b.z);
+ for(const tri of tris){
+  const [a,b,c]=tri.f.map(i=>points[i]);
+  const nx=(b.y-a.y)*(c.z-a.z)-(b.z-a.z)*(c.y-a.y), ny=(b.z-a.z)*(c.x-a.x)-(b.x-a.x)*(c.z-a.z), nz=(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+  const len=Math.hypot(nx,ny,nz)||1; const shade=Math.max(.12,Math.min(1,(.45*(nx/len)+.65*(ny/len)+.85*(nz/len)+1.4)/2.4));
+  ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.lineTo(c.x,c.y);ctx.closePath();ctx.fillStyle=`hsla(${hue}, 62%, ${light*shade}%, 1)`;ctx.fill();
+ }
+ // soft specular highlight
+ const g=ctx.createRadialGradient(cx-scale*.32,cy-scale*.38,2,cx-scale*.15,cy-scale*.15,scale*1.05);
+ g.addColorStop(0,'rgba(255,255,255,.38)');g.addColorStop(.4,'rgba(255,255,255,.06)');g.addColorStop(1,'rgba(255,255,255,0)');
+ ctx.save();ctx.globalCompositeOperation='screen';ctx.beginPath();ctx.ellipse(cx,cy,scale*.88,scale*.92,0,0,Math.PI*2);ctx.fillStyle=g;ctx.fill();ctx.restore();
+}
+function loop(){rebuild();render();requestAnimationFrame(loop)}
+function setStatus(s){$('status').textContent=s;}
+function applyWord(){
+ word=$('wordInput').value.trim(); if(!word){setStatus('オノマトペを入力してね。');return;}
+ shapeStyle=/かく|カク|きちん|整然|規則|四角|角/.test(word)?'geometric':'organic';
+ let p={bump:1.15,soft:.7};
+ if(/ぷに|ぷる|もち|むに|ふわ|もこ|ぽわ/.test(word)){p.bump=.9;p.soft=.9;}
+ if(/うね|ぐにゃ|ぐる|くる/.test(word)){p.bump=1.65;p.soft=.62;}
+ if(/ぺたん|ぺしゃ|へこ|きゅ/.test(word)){p.bump=1.8;p.soft=.28;}
+ if(/しーん|すん|静か|ひそ/.test(word)){p.bump=.08;p.soft=.95;}
+ params=p; for(const k of Object.keys(controls)){controls[k].value=params[k];updateLabel(k)}
+ $('shownWord').textContent=word; $('shapeCaption').textContent=caption(word); setStatus('「'+word+'」の形を生成しました。パラメータは手動でも調整できます。');
+}
+function caption(w){const style=shapeStyle==='geometric'?'幾何学的・対称':'有機的・対称';if(/ぷに|ぷる|もち|むに/.test(w))return style+' ／ なめらかな丸み';if(/うね|ぐにゃ|ぐる|くる/.test(w))return style+' ／ 大きくうねる曲面';if(/ぺたん|ぺしゃ|へこ|きゅ/.test(w))return style+' ／ 極端な変形';if(/しーん|静か/.test(w))return style+' ／ ほぼ球体';return style+' ／ なめらかな規則形';}
+function updateLabel(k){const val=Number(controls[k].value);params[k]=val;const label=$(k+'Val');if(label)label.textContent=val.toFixed(2);}
+function download(text,type,name){const blob=new Blob([text],{type});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);setStatus(name+' を書き出しました。');}
+function exportOBJ(){const vs=baseDirs.map(d=>deform(d,0));let out='# ONOMATOPOEIA LAB OBJ\n# Word: '+word+'\n';for(const v of vs)out+=`v ${v.x.toFixed(6)} ${v.y.toFixed(6)} ${v.z.toFixed(6)}\n`;for(const f of faces)out+=`f ${f[0]+1} ${f[1]+1} ${f[2]+1}\n`;download(out,'text/plain;charset=utf-8',safeName()+'.obj');}
+function exportSTL(){const vs=baseDirs.map(d=>deform(d,0));let out='solid onomatopoeia\n';for(const f of faces){const a=vs[f[0]],b=vs[f[1]],c=vs[f[2]];let ux=b.x-a.x,uy=b.y-a.y,uz=b.z-a.z,vx=c.x-a.x,vy=c.y-a.y,vz=c.z-a.z;let nx=uy*vz-uz*vy,ny=uz*vx-ux*vz,nz=ux*vy-uy*vx;let l=Math.hypot(nx,ny,nz)||1;out+=` facet normal ${nx/l} ${ny/l} ${nz/l}\n  outer loop\n`;for(const p of [a,b,c])out+=`   vertex ${p.x} ${p.y} ${p.z}\n`;out+='  endloop\n endfacet\n';}out+='endsolid onomatopoeia\n';download(out,'model/stl',safeName()+'.stl');}
+function safeName(){return (word||'onomatopeia').replace(/[^\p{L}\p{N}_-]/gu,'_').slice(0,32)||'onomatopeia';}
+$('generateBtn').addEventListener('click',applyWord);$('wordInput').addEventListener('keydown',e=>{if(e.key==='Enter')applyWord()});$('objBtn').addEventListener('click',exportOBJ);$('stlBtn').addEventListener('click',exportSTL);
+Object.keys(controls).forEach(k=>controls[k].addEventListener('input',()=>{updateLabel(k);$('shapeCaption').textContent='パラメータを調整中';}));
+ $('resetBtn').addEventListener('click',()=>{params={bump:1.15,soft:.7};for(const k of Object.keys(controls)){controls[k].value=params[k];updateLabel(k)}setStatus('パラメータを初期値に戻しました。');});
+canvas.addEventListener('pointerdown',e=>{dragging=true;lastX=e.clientX;lastY=e.clientY;canvas.setPointerCapture(e.pointerId)});canvas.addEventListener('pointermove',e=>{if(!dragging)return;rotY+=(e.clientX-lastX)*.008;rotX+=(e.clientY-lastY)*.008;lastX=e.clientX;lastY=e.clientY;});canvas.addEventListener('pointerup',()=>dragging=false);canvas.addEventListener('pointercancel',()=>dragging=false);
+window.addEventListener('resize',resize);buildMesh();resize();applyWord();loop();
+})();
+</script>
+</body>
+</html>
